@@ -17,4 +17,6 @@ alias gd="git diff"
 alias gdca="git diff --cached"
 
 source /usr/share/chruby/chruby.fish
+
 export PATH="$HOME/.nodenv/shims:$PATH"
+export PATH="$HOME/.yarn/bin:$PATH"
