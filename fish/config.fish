@@ -10,7 +10,7 @@ export EDITOR=nvim
 
 
 alias fm="ranger"
-alias gs="git status"
+alias gst="git status"
 alias ga="git add"
 alias gc="git commit"
 alias gd="git diff"
