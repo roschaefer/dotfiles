@@ -11,4 +11,8 @@ yay/
 configstore/
 mimeapps.list
 nvim/
-
+calibre/
+dconf/
+fish/functions/
+htop/
+pavucontrol.ini
