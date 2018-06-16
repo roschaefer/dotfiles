@@ -20,3 +20,6 @@ source /usr/share/chruby/chruby.fish
 
 export PATH="$HOME/.nodenv/shims:$PATH"
 export PATH="$HOME/.yarn/bin:$PATH"
+
+export ANDROID_HOME="/opt/android-sdk/"
+export PATH="$ANDROID_HOME/platform-tools:$PATH"
