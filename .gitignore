@@ -1,13 +1,13 @@
 *
-
-
-!.gitignore
-!local.vim
-
-!*/
+!/.gitignore
+!/*/
 
 !alacritty/alacritty.yml
 !fish/config.fish
 !i3status/config
 !ranger/rc.conf
 !sway/config
+
+nvim/*
+nvim/.gitignore
+!nvim/init.vim
