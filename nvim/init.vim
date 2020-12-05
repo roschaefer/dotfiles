@@ -8,6 +8,9 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'nathanaelkane/vim-indent-guides'
+Plug 'posva/vim-vue'
+Plug 'pangloss/vim-javascript'
+Plug 'jparise/vim-graphql'
 Plug 'flazz/vim-colorschemes'
 Plug 'tpope/vim-unimpaired'
 Plug 'justinmk/vim-sneak'
@@ -53,8 +56,23 @@ map <leader>f :Files<CR>
 map <leader>g :GFiles<CR>
 map <leader>h :History<CR>
 map <leader>w :Windows<CR>
+map <leader>m :Marks<CR>
 
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+nmap <leader>rn <Plug>(coc-rename)
+command! -nargs=0 Format :call CocAction('format')
+nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+
 nnoremap <silent> <leader>y  :<C-u>CocList -A --normal yank<cr>
-nmap <space>e :CocCommand explorer<CR>
+nmap <leader>e :CocCommand explorer<CR>
 nnoremap <silent> <leader>n  :<C-u>CocList --normal gstatus<CR>
+
+
+
