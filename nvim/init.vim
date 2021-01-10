@@ -1,6 +1,13 @@
 " Specify a directory for plugins
 " - For Neovim: ~/.local/share/nvim/plugged
 " - Avoid using standard Vim directory names like 'plugin'
+
+let g:coc_global_extensions = [
+      \'coc-explorer',
+      \'coc-git'
+      \]
+
+
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'preservim/nerdcommenter'
