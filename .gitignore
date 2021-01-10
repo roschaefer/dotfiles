@@ -7,6 +7,8 @@
 !i3status/config
 !ranger/rc.conf
 !sway/config
+!waybar/*
+!wofi/*
 
 nvim/*
 nvim/.gitignore
