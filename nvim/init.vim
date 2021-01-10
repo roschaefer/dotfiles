@@ -14,7 +14,7 @@ Plug 'jparise/vim-graphql'
 Plug 'flazz/vim-colorschemes'
 Plug 'tpope/vim-unimpaired'
 Plug 'justinmk/vim-sneak'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
 
 " Initialize plugin system
 call plug#end()
