@@ -1,19 +1,21 @@
 export EDITOR=nvim
+export BROWSER=firefox
 
+export MOZ_ENABLE_WAYLAND=1
+export XDG_CURRENT_DESKTOP=sway
 
 alias fm="ranger"
 alias gst="git status"
 alias ga="git add"
 alias gc="git commit"
 alias gd="git diff"
-alias gdca="git diff --cached"
+alias gdca="git diff --staged"
 
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+source ~/.asdf/asdf.fish
+
 
 if status is-login
     if test -z "$DISPLAY" -a $XDG_VTNR = 1
-        exec startx -- -keeptty
+        exec sway
     end
 end
-source ~/.asdf/asdf.fish

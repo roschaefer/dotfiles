@@ -73,6 +73,3 @@ nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
 nnoremap <silent> <leader>y  :<C-u>CocList -A --normal yank<cr>
 nmap <leader>e :CocCommand explorer<CR>
 nnoremap <silent> <leader>n  :<C-u>CocList --normal gstatus<CR>
-
-
-
