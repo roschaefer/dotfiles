@@ -9,7 +9,9 @@
 !sway/config
 !waybar/*
 !wofi/*
+!chromium-flags.conf
 
 nvim/*
 nvim/.gitignore
 !nvim/init.vim
+
