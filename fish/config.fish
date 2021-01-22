@@ -3,6 +3,7 @@ export BROWSER=firefox
 
 export MOZ_ENABLE_WAYLAND=1
 export XDG_CURRENT_DESKTOP=sway
+export GTK_THEME=Arc:dark
 
 alias fm="ranger"
 alias gst="git status"
@@ -13,9 +14,7 @@ alias gdca="git diff --staged"
 
 source ~/.asdf/asdf.fish
 
-
-if status is-login
-    if test -z "$DISPLAY" -a $XDG_VTNR = 1
-        exec sway
-    end
+set TTY1 (tty)
+if test -z "$DISPLAY"; and test $TTY1 = "/dev/tty1"
+  exec sway
 end
