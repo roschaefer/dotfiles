@@ -10,6 +10,7 @@
 !waybar/*
 !wofi/*
 !chromium-flags.conf
+!zathura/zathurarc
 
 nvim/*
 nvim/.gitignore

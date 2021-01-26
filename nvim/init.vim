@@ -4,7 +4,8 @@
 
 let g:coc_global_extensions = [
       \'coc-explorer',
-      \'coc-git'
+      \'coc-git',
+      \'coc-yank',
       \]
 
 
@@ -20,13 +21,17 @@ Plug 'pangloss/vim-javascript'
 Plug 'jparise/vim-graphql'
 Plug 'flazz/vim-colorschemes'
 Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-fugitive'
 Plug 'justinmk/vim-sneak'
 Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
 
 " Initialize plugin system
 call plug#end()
 
-
+command! -bang -nargs=* GGrep
+  \ call fzf#vim#grep(
+  \   'git grep --line-number -- '.shellescape(<q-args>), 0,
+  \   fzf#vim#with_preview({'dir': systemlist('git rev-parse --show-toplevel')[0]}), <bang>0)
 
 
 " Custom
@@ -61,6 +66,7 @@ let g:indent_guides_enable_on_vim_startup = 1
 " Plug 'junegunn/fzf.vim'
 map <leader>f :Files<CR>
 map <leader>g :GFiles<CR>
+map <leader>p :GGrep<CR>
 map <leader>h :History<CR>
 map <leader>w :Windows<CR>
 map <leader>m :Marks<CR>
@@ -72,6 +78,7 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+
 
 nmap <leader>rn <Plug>(coc-rename)
 command! -nargs=0 Format :call CocAction('format')
