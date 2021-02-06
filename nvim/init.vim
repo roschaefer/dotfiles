@@ -7,6 +7,7 @@ let g:coc_global_extensions = [
       \'coc-git',
       \'coc-yank',
       \]
+let g:coc_node_path = '/usr/bin/node'
 
 
 call plug#begin('~/.local/share/nvim/plugged')
@@ -14,6 +15,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'preservim/nerdcommenter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'junegunn/vim-easy-align'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'posva/vim-vue'
@@ -23,6 +25,8 @@ Plug 'flazz/vim-colorschemes'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-fugitive'
 Plug 'justinmk/vim-sneak'
+Plug 'machakann/vim-sandwich'
+Plug 'dart-lang/dart-vim-plugin'
 Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
 
 " Initialize plugin system
