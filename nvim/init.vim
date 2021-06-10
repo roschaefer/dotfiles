@@ -5,6 +5,7 @@
 let g:coc_global_extensions = [
       \'coc-explorer',
       \'coc-git',
+      \'coc-tsserver',
       \'coc-yank',
       \]
 let g:coc_node_path = '/usr/bin/node'
@@ -12,21 +13,20 @@ let g:coc_node_path = '/usr/bin/node'
 
 call plug#begin('~/.local/share/nvim/plugged')
 
+Plug 'sheerun/vim-polyglot'
+Plug 'evanleck/vim-svelte', {'branch': 'main'}
 Plug 'preservim/nerdcommenter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-easy-align'
+Plug 'flazz/vim-colorschemes'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'nathanaelkane/vim-indent-guides'
-Plug 'posva/vim-vue'
-Plug 'pangloss/vim-javascript'
-Plug 'jparise/vim-graphql'
-Plug 'flazz/vim-colorschemes'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-fugitive'
 Plug 'justinmk/vim-sneak'
 Plug 'machakann/vim-sandwich'
-Plug 'dart-lang/dart-vim-plugin'
+Plug 'sebdah/vim-delve'
 Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
 
 " Initialize plugin system
@@ -54,9 +54,8 @@ set suffixesadd=.js,.vue
 " because I hit shift so often by accident
 command W :w
 
-" Plug 'flazz/vim-colorschemes'
-" set background=light
 colorscheme gruvbox
+set background=light
 set termguicolors
 
 " Plug 'ntpeters/vim-better-whitespace'
@@ -89,5 +88,10 @@ command! -nargs=0 Format :call CocAction('format')
 nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
 
 nnoremap <silent> <leader>y  :<C-u>CocList -A --normal yank<cr>
-nmap <leader>e :CocCommand explorer<CR>
+nnoremap <leader>e :CocCommand explorer<CR>
 nnoremap <silent> <leader>n  :<C-u>CocList --normal gstatus<CR>
+
+
+autocmd FileType go nmap <leader>b  <Plug>(go-build)
+autocmd FileType go nmap <leader>r  <Plug>(go-run)
+let g:go_fmt_command = "goimports"
