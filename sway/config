@@ -218,6 +218,9 @@ bindsym XF86MonBrightnessUp exec light -A 5
 # Custom screenshot
 bindsym $mod+p exec grim -g "$(slurp)" - | swappy -f -
 
+# Toggle between light and dark colorschemes
+bindsym $mod+Shift+n exec ~/.config/sway/toggle_background.bash
+
 #
 # Status Bar:
 #

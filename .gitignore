@@ -7,6 +7,7 @@
 !i3status/config
 !ranger/rc.conf
 !sway/config
+!sway/toggle_background.bash
 !waybar/*
 !wofi/*
 !chromium-flags.conf
