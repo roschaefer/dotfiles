@@ -16,13 +16,20 @@ alias gc="git commit"
 alias gd="git diff"
 alias gdca="git diff --staged"
 
-alias backup_local_drive="rsync -avP --exclude-from=/home/robert/.config/rsync/rsync-homedir-local.txt /home/robert/ $BACKUP_DIR"
+alias backup_local_drive="rsync -avP --stats --exclude-from=/home/robert/.config/rsync/rsync-homedir-local.txt /home/robert/ $BACKUP_DIR"
 
 source ~/.asdf/asdf.fish
 . ~/.asdf/plugins/java/set-java-home.fish
 
+export ANDROID_SDK_ROOT='/opt/android-sdk'
+fish_add_path $ANDROID_SDK_ROOT/platform-tools/ $ANDROID_SDK_ROOT/tools/bin/ $ANDROID_ROOT/emulator $ANDROID_SDK_ROOT/tools/
+
 set TTY1 (tty)
 if test -z "$DISPLAY"; and test $TTY1 = "/dev/tty1"
   set -x (gnome-keyring-daemon --start | string split "=")
-  exec sway ^ $HOME/sway.log
+
+  # TODO: Find out why this is necessary
+  # See: https://www.reddit.com/r/voidlinux/comments/mor7n5/getting_libseat_errors_when_starting_sway/
+  export LIBSEAT_BACKEND=logind
+  exec sway
 end
