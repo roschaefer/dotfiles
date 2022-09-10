@@ -2,18 +2,9 @@
 !/.gitignore
 !/*/
 
-!alacritty/alacritty.yml
 !fish/config.fish
-!i3status/config
 !ranger/rc.conf
 !sway/config
-!sway/toggle_background.bash
-!waybar/*
-!wofi/*
-!chromium-flags.conf
-!zathura/zathurarc
-
-nvim/*
-nvim/.gitignore
 !nvim/init.vim
+!zathura/zathurarc
 

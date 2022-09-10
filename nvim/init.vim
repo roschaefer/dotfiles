@@ -2,14 +2,13 @@
 " - For Neovim: ~/.local/share/nvim/plugged
 " - Avoid using standard Vim directory names like 'plugin'
 
+let g:coc_node_path = '/home/robert/.asdf/shims/node'
 let g:coc_global_extensions = [
       \'coc-explorer',
       \'coc-git',
       \'coc-tsserver',
       \'coc-yank',
       \]
-let g:coc_node_path = '/usr/bin/node'
-
 
 call plug#begin('~/.local/share/nvim/plugged')
 
@@ -55,7 +54,7 @@ set suffixesadd=.js,.vue
 command W :w
 
 colorscheme gruvbox
-set background=light
+set background=dark
 set termguicolors
 
 " Plug 'ntpeters/vim-better-whitespace'

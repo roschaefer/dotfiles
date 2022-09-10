@@ -1,10 +1,6 @@
 export EDITOR=nvim
 export BROWSER=firefox
 
-export MOZ_ENABLE_WAYLAND=1
-export GO111MODULE=auto
-export XDG_CURRENT_DESKTOP=sway
-export QT_QPA_PLATFORM=wayland-egl
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export CHROME_EXECUTABLE=(which chromium)
 export BACKUP_DIR=/run/media/robert/external-drive/home/robert
@@ -18,18 +14,14 @@ alias gdca="git diff --staged"
 
 alias backup_local_drive="rsync -avP --stats --exclude-from=/home/robert/.config/rsync/rsync-homedir-local.txt /home/robert/ $BACKUP_DIR"
 
-source ~/.asdf/asdf.fish
-. ~/.asdf/plugins/java/set-java-home.fish
+source /opt/asdf-vm/asdf.fish
 
-export ANDROID_SDK_ROOT='/opt/android-sdk'
-fish_add_path $ANDROID_SDK_ROOT/platform-tools/ $ANDROID_SDK_ROOT/tools/bin/ $ANDROID_ROOT/emulator $ANDROID_SDK_ROOT/tools/
+function mark_prompt_start --on-event fish_prompt
+    echo -en "\e]133;A\e\\"
+end
 
 set TTY1 (tty)
 if test -z "$DISPLAY"; and test $TTY1 = "/dev/tty1"
   set -x (gnome-keyring-daemon --start | string split "=")
-
-  # TODO: Find out why this is necessary
-  # See: https://www.reddit.com/r/voidlinux/comments/mor7n5/getting_libseat_errors_when_starting_sway/
-  export LIBSEAT_BACKEND=logind
   exec sway
 end
