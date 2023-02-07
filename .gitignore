@@ -5,6 +5,9 @@
 !fish/config.fish
 !ranger/rc.conf
 !sway/config
-!nvim/init.vim
+!nvim/init*
+!nvim/lua
+!nvim/lua/plugins.lua
 !zathura/zathurarc
+!foot/foot.ini
 
