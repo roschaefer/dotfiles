@@ -538,3 +538,7 @@ nnoremap <a-o> :sync %c<cr>
 
 " https://github.com/cirala/vifm_devicons
 
+
+" Custom keymappings
+" https://github.com/vifm/vifm/issues/273#issuecomment-307618766
+nnoremap b :bmgo<space>
