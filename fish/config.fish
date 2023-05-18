@@ -12,7 +12,7 @@ alias ga="git add"
 alias gc="git commit"
 alias gd="git diff"
 alias gdca="git diff --staged"
-alias backup_local_drive="rsync -avP --stats --exclude-from=/home/robert/.config/rsync/rsync-homedir-local.txt /home/robert/ $BACKUP_DIR"
+alias backup_local_drive="rsync -avP --stats --exclude-from=/home/robert/.config/rsync/rsync-homedir-local.txt --exclude=node_modules --exclude=.yarn/unplugged /home/robert/ $BACKUP_DIR"
 
 if status is-login
   set -x (gnome-keyring-daemon | string split "=")

@@ -1,6 +1,5 @@
 return {
   { 'neovim/nvim-lspconfig' },
-  { 'iberianpig/tig-explorer.vim' },
   { 'matze/vim-move' },
   { "ellisonleao/gruvbox.nvim" },
   { 'nvim-lua/plenary.nvim' },
@@ -19,4 +18,10 @@ return {
   { 'pwntester/octo.nvim'},
   { 'ggandor/leap.nvim' },
   { 'ntpeters/vim-better-whitespace' },
+  { 'sheerun/vim-polyglot' },
+  { 'mfussenegger/nvim-dap' },
+  { 'rcarriga/nvim-dap-ui' },
+  { 'folke/neodev.nvim' },
+  { 'kdheepak/lazygit.nvim' },
+  { 'lewis6991/gitsigns.nvim' },
 }

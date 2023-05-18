@@ -25,11 +25,12 @@ vim.o.expandtab = true
 vim.keymap.set('n', '<leader>t', '<cmd>tabnew<cr>')
 vim.keymap.set('n', 'H', '<cmd>tabprevious<cr>')
 vim.keymap.set('n', 'L', '<cmd>tabnext<cr>')
-vim.keymap.set('c', 'W', 'w')
 
 vim.cmd('colorscheme gruvbox')
 
 require'lspconfig'.tsserver.setup {}
+require'lspconfig'.volar.setup{}
+
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap=true, silent=true }
@@ -175,3 +176,22 @@ require'nvim-treesitter.configs'.setup {
 require('leap').add_default_mappings()
 
 require"octo".setup()
+
+local dap = require('dap')
+vim.keymap.set('n', '<leader>bb', dap.toggle_breakpoint)
+vim.keymap.set('n', '<leader>bc', dap.continue)
+vim.keymap.set('n', '<leader>bo', dap.step_over)
+vim.keymap.set('n', '<leader>bi', dap.step_into)
+-- vim.keymap.set('n', '<leader>br', dap.repl_open)
+
+require("neodev").setup({
+  library = { plugins = { "nvim-dap-ui" }, types = true },
+})
+
+local dapui = require('dapui')
+vim.keymap.set('n', '<leader>vo', dapui.open)
+vim.keymap.set('n', '<leader>vc', dapui.close)
+vim.keymap.set('n', '<leader>vi', dapui.toggle)
+
+
+require('gitsigns').setup()
