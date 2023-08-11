@@ -26,8 +26,7 @@ vim.keymap.set('n', '<leader>t', '<cmd>tabnew<cr>')
 vim.keymap.set('n', 'H', '<cmd>tabprevious<cr>')
 vim.keymap.set('n', 'L', '<cmd>tabnext<cr>')
 
-vim.cmd('colorscheme gruvbox')
-
+require'lspconfig'.html.setup{}
 require'lspconfig'.tsserver.setup {}
 require'lspconfig'.volar.setup{}
 
@@ -81,7 +80,6 @@ vim.keymap.set(
 
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
-vim.opt.termguicolors = true
 require("nvim-tree").setup({
   sort_by = "case_sensitive",
   view = {
@@ -195,3 +193,9 @@ vim.keymap.set('n', '<leader>vi', dapui.toggle)
 
 
 require('gitsigns').setup()
+
+-- vim.cmd('colorscheme default')
+vim.cmd('set notermguicolors')
+vim.cmd('highlight Search ctermfg=0')
+
+vim.cmd('colorscheme gruvbox')
