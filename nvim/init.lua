@@ -1,5 +1,16 @@
-require 'plugins'
+vim.o.clipboard = 'unnamedplus'
+vim.wo.number = true
+vim.o.tabstop = 2
+vim.o.softtabstop = 2
+vim.o.shiftwidth = 2
+vim.o.expandtab = true
 
+vim.keymap.set('n', '<leader>t', '<cmd>tabnew<cr>')
+vim.keymap.set('n', 'H', '<cmd>tabprevious<cr>')
+vim.keymap.set('n', 'L', '<cmd>tabnext<cr>')
+
+
+require 'plugins'
 vim.g.mapleader = " " -- make sure to set `mapleader` before lazy so your mappings are correct
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -15,22 +26,10 @@ end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup('plugins', {})
 
-vim.o.clipboard = 'unnamedplus'
-vim.wo.number = true
-vim.o.tabstop = 2
-vim.o.softtabstop = 2
-vim.o.shiftwidth = 2
-vim.o.expandtab = true
-
-vim.keymap.set('n', '<leader>t', '<cmd>tabnew<cr>')
-vim.keymap.set('n', 'H', '<cmd>tabprevious<cr>')
-vim.keymap.set('n', 'L', '<cmd>tabnext<cr>')
-
 require'lspconfig'.html.setup{}
 require'lspconfig'.tsserver.setup {}
 require'lspconfig'.volar.setup{}
 
--- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap=true, silent=true }
 vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, opts)
@@ -38,15 +37,13 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, opts)
 
-
--- Mappings.
 -- See `:help vim.lsp.*` for documentation on any of the below functions
 local bufopts = { noremap=true, silent=true, buffer=bufnr }
 vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
 vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
 vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+vim.keymap.set('n', '<leader>k', vim.lsp.buf.signature_help, bufopts)
 vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
 vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
 vim.keymap.set('n', '<leader>wl', function()
@@ -70,29 +67,11 @@ vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fH', builtin.help_tags, {})
 vim.keymap.set('n', '<leader>fh', builtin.oldfiles, {})
 
-require("telescope").load_extension "file_browser"
-vim.keymap.set(
-"n",
-"<leader>fe",
-"<cmd>lua require 'telescope'.extensions.file_browser.file_browser()<CR>",
-{noremap = true}
-)
-
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-require("nvim-tree").setup({
-  sort_by = "case_sensitive",
-  view = {
-    width = 40,
-    mappings = {
-      list = {
-        { key = "l", action = "dir_down" },
-        { key = "h", action = "close_node" },
-      },
-    },
-  },
-})
-vim.keymap.set('n', '<leader>e', '<Cmd>NvimTreeFindFileToggle<cr>')
+--- 'is0n/fm-nvim'
+vim.keymap.set('n', '<leader>x', '<Cmd>Xplr %:p:h<cr>')
+vim.keymap.set('n', '<leader>X', '<Cmd>Xplr<cr>')
+vim.keymap.set('n', '<leader>l', '<Cmd>Lf %:p:h<cr>')
+vim.keymap.set('n', '<leader>L', '<Cmd>Lf<cr>')
 
 local cmp = require'cmp'
 cmp.setup({
@@ -173,29 +152,113 @@ require'nvim-treesitter.configs'.setup {
 
 require('leap').add_default_mappings()
 
-require"octo".setup()
+require("dap-vscode-js").setup({
+  -- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
+  debugger_path = vim.fn.stdpath('data') .. "/lazy/vscode-js-debug",
+  -- debugger_cmd = { "extension" }, -- Command to use to launch the debug server. Takes precedence over `node_path` and `debugger_path`.
+  adapters = { 'chrome', 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost', 'node', 'chrome' }, -- which adapters to register in nvim-dap
+  -- log_file_path = "(stdpath cache)/dap_vscode_js.log" -- Path for file logging
+  -- log_file_level = false -- Logging level for output to file. Set to false to disable file logging.
+  -- log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
+})
 
-local dap = require('dap')
-vim.keymap.set('n', '<leader>bb', dap.toggle_breakpoint)
-vim.keymap.set('n', '<leader>bc', dap.continue)
-vim.keymap.set('n', '<leader>bo', dap.step_over)
-vim.keymap.set('n', '<leader>bi', dap.step_into)
--- vim.keymap.set('n', '<leader>br', dap.repl_open)
+local js_based_languages = { "typescript", "javascript", "typescriptreact" }
+
+for _, language in ipairs(js_based_languages) do
+  require("dap").configurations[language] = {
+    {
+      type = "pwa-node",
+      request = "launch",
+      name = "Launch file",
+      program = "${file}",
+      cwd = "${workspaceFolder}",
+    },
+    {
+      type = "pwa-node",
+      request = "attach",
+      name = "Attach",
+      processId = require'dap.utils'.pick_process,
+      cwd = "${workspaceFolder}",
+    },
+    {
+      type = "pwa-node",
+      request = "launch",
+      name = "Debug Jest Tests",
+      -- trace = true, -- include debugger info
+      runtimeExecutable = "node",
+      runtimeArgs = {
+        "./node_modules/jest/bin/jest.js",
+        "--runInBand",
+      },
+      rootPath = "${workspaceFolder}",
+      cwd = "${workspaceFolder}",
+      console = "integratedTerminal",
+      internalConsoleOptions = "neverOpen",
+    },
+    {
+      type = "pwa-node",
+      request = "launch",
+      name = "Debug Yarn 3 Jest Tests",
+      runtimeExecutable = "yarn",
+      runtimeArgs = {
+        "run", "--inspect-brk", "jest"
+      },
+      rootPath = "${workspaceFolder}",
+      cwd = "${workspaceFolder}",
+      console = "integratedTerminal",
+      internalConsoleOptions = "neverOpen",
+    }
+  }
+end
+
+local dap = require("dap")
+-- Set keymaps to control the debugger
+vim.keymap.set('n', '<F5>', require 'dap'.continue)
+vim.keymap.set('n', '<F10>', require 'dap'.step_over)
+vim.keymap.set('n', '<F11>', require 'dap'.step_into)
+vim.keymap.set('n', '<F12>', require 'dap'.step_out)
+vim.keymap.set('n', '<leader>b', require 'dap'.toggle_breakpoint)
+vim.keymap.set('n', '<leader>B', function()
+  require 'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))
+end)
+
+
+require("dapui").setup()
+
+local dap, dapui = require("dap"), require("dapui")
+
+dap.listeners.after.event_initialized["dapui_config"] = function()
+  dapui.open({})
+end
+dap.listeners.before.event_terminated["dapui_config"] = function()
+  dapui.close({})
+end
+dap.listeners.before.event_exited["dapui_config"] = function()
+  dapui.close({})
+end
+
+vim.keymap.set('n', '<leader>ui', require 'dapui'.toggle)
 
 require("neodev").setup({
   library = { plugins = { "nvim-dap-ui" }, types = true },
 })
 
-local dapui = require('dapui')
-vim.keymap.set('n', '<leader>vo', dapui.open)
-vim.keymap.set('n', '<leader>vc', dapui.close)
-vim.keymap.set('n', '<leader>vi', dapui.toggle)
+-- local dapui = require('dapui')
+-- vim.keymap.set('n', '<leader>vo', dapui.open)
+-- vim.keymap.set('n', '<leader>vc', dapui.close)
+-- vim.keymap.set('n', '<leader>vi', dapui.toggle)
 
 
 require('gitsigns').setup()
-
--- vim.cmd('colorscheme default')
-vim.cmd('set notermguicolors')
-vim.cmd('highlight Search ctermfg=0')
+require('mini.align').setup({})
+require('mini.ai').setup({})
+require('mini.move').setup({})
+require('mini.basics').setup({
+  mappings = {
+    windows = true,
+  }
+})
+require('mini.bracketed').setup({})
+-- require('diffview').setup({})
 
 vim.cmd('colorscheme gruvbox')

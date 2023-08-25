@@ -1,12 +1,11 @@
 return {
   { 'neovim/nvim-lspconfig' },
-  { 'matze/vim-move' },
+
   { "ellisonleao/gruvbox.nvim" },
+
   { 'nvim-lua/plenary.nvim' },
-  { 'nvim-tree/nvim-web-devicons' },
   { 'nvim-telescope/telescope.nvim' },
-  { "nvim-telescope/telescope-file-browser.nvim" },
-  { 'nvim-tree/nvim-tree.lua' },
+
   { 'hrsh7th/cmp-nvim-lsp' },
   { 'hrsh7th/cmp-buffer'},
   { 'hrsh7th/cmp-path'},
@@ -14,14 +13,28 @@ return {
   { 'hrsh7th/nvim-cmp' },
   { 'L3MON4D3/LuaSnip' },
   { 'saadparwaiz1/cmp_luasnip' },
-  { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'},
-  { 'pwntester/octo.nvim'},
+
+  { 'nvim-treesitter/nvim-treesitter' },
+
   { 'ggandor/leap.nvim' },
+
   { 'ntpeters/vim-better-whitespace' },
-  { 'sheerun/vim-polyglot' },
+
   { 'mfussenegger/nvim-dap' },
-  { 'rcarriga/nvim-dap-ui' },
+  { 'mxsdev/nvim-dap-vscode-js' },
+  { "rcarriga/nvim-dap-ui" },
+  { 'microsoft/vscode-js-debug' },
+  -- run = 'npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out'
+
   { 'folke/neodev.nvim' },
+
   { 'kdheepak/lazygit.nvim' },
+
   { 'lewis6991/gitsigns.nvim' },
+
+  {'is0n/fm-nvim'},
+
+  { 'echasnovski/mini.nvim', version = false },
+
+  { 'sindrets/diffview.nvim' },
 }
