@@ -1,3 +1,5 @@
+map <enter> quit
+
 cmd trash %trash "$fx"
 map D trash
 

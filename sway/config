@@ -216,7 +216,7 @@ bindsym $mod+Shift+P exec grim -g "$(slurp; sleep 3)" - | swappy -f -
 #
 # Read `man 5 sway-bar` for more information about this section.
 bar {
-    # position top
+    position bottom
 
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
@@ -235,3 +235,5 @@ bindgesture pinch:inward+down move down
 bindgesture pinch:inward+left move left
 bindgesture pinch:inward+right move right
 
+default_border pixel 2
+default_floating_border pixel 2

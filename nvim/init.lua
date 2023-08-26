@@ -5,7 +5,7 @@ vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
 vim.o.expandtab = true
 
-vim.keymap.set('n', '<leader>t', '<cmd>tabnew<cr>')
+vim.keymap.set('n', 'T', '<cmd>tabnew<cr>')
 vim.keymap.set('n', 'H', '<cmd>tabprevious<cr>')
 vim.keymap.set('n', 'L', '<cmd>tabnext<cr>')
 
@@ -66,6 +66,8 @@ vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fH', builtin.help_tags, {})
 vim.keymap.set('n', '<leader>fh', builtin.oldfiles, {})
+vim.keymap.set('n', '<leader>t', builtin.treesitter, {})
+vim.keymap.set('n', '<leader>T', builtin.builtin, {})
 
 --- 'is0n/fm-nvim'
 vim.keymap.set('n', '<leader>x', '<Cmd>Xplr %:p:h<cr>')
@@ -259,6 +261,9 @@ require('mini.basics').setup({
   }
 })
 require('mini.bracketed').setup({})
+
 -- require('diffview').setup({})
+
+require('nvim-ts-autotag').setup()
 
 vim.cmd('colorscheme gruvbox')

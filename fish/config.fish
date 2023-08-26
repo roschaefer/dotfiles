@@ -5,8 +5,6 @@ export BACKUP_DIR=/run/media/robert/external-drive/home/robert
 export GPG_TTY=$(tty)
 
 source /opt/asdf-vm/asdf.fish
-zoxide init fish | source
-direnv hook fish | source
 
 function lfcd
     set tmp (mktemp)
@@ -22,6 +20,13 @@ function lfcd
         end
     end
 end
+
+# pnpm
+set -gx PNPM_HOME "/home/robert/.local/share/pnpm"
+if not string match -q -- $PNPM_HOME $PATH
+  set -gx PATH "$PNPM_HOME" $PATH
+end
+# pnpm end
 
 alias gl="git pull"
 alias gf="git fetch"
@@ -39,5 +44,6 @@ if status is-login
 end
 
 if status is-interactive
-    # Commands to run in interactive sessions can go here
+  # direnv hook fish | source
+  zoxide init fish | source
 end

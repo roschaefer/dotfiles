@@ -5,6 +5,7 @@
 !fish/config.fish
 !ranger/rc.conf
 !sway/config
+!waybar/*
 !nvim/init*
 !nvim/lua
 !nvim/lua/plugins.lua
