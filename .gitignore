@@ -3,7 +3,6 @@
 !/*/
 
 !fish/config.fish
-!ranger/rc.conf
 !sway/config
 !waybar/*
 !nvim/init*
@@ -13,6 +12,4 @@
 !nvim/snippets/*
 !zathura/zathurarc
 !foot/foot.ini
-!vifm/vifmrc
-!direnv/direnv.toml
 !lf/lfrc
