@@ -9,6 +9,8 @@
 !nvim/init*
 !nvim/lua
 !nvim/lua/plugins.lua
+!nvim/snippets
+!nvim/snippets/*
 !zathura/zathurarc
 !foot/foot.ini
 !vifm/vifmrc

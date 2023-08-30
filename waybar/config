@@ -9,8 +9,7 @@
         "modules-center": ["sway/window"],
         "modules-right": ["network#vpn", "network#wifi", "network#ethernet", "network#disconnected", "custom/weather", "clock"],
         "sway/window": {
-            "format": "{} ",
-            "on-click": "swaymsg kill"
+            "format": "{}",
         },
         "idle_inhibitor": {
             "format": "{icon}",
@@ -82,7 +81,7 @@
             "on-click": "nm-connection-editor"
         },
         "network#wifi": {
-            "interface": "wlp*",
+            "interface": "wlan*",
             "format-ethernet": "",
             "format-wifi": " {essid} ({signalStrength}%)",
             "format-linked": "",
