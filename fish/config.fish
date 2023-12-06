@@ -1,5 +1,6 @@
 export EDITOR=nvim
 export BROWSER=firefox
+export OPENER=xdg-open
 export CHROME_EXECUTABLE=(which chromium)
 export BACKUP_DIR=/run/media/robert/external-drive/home/robert
 export GPG_TTY=$(tty)
@@ -36,7 +37,8 @@ alias gc="git commit"
 alias gd="git diff"
 alias gdca="git diff --staged"
 alias lf="lfcd"
-alias backup_local_drive="rsync -avP --stats --exclude-from=/home/robert/.config/rsync/rsync-homedir-local.txt --exclude=node_modules --exclude=.yarn/unplugged --exclude='*.CR3' /home/robert/ $BACKUP_DIR"
+alias p="pnpm"
+alias backup_local_drive="rsync -avP --stats --exclude-from=/home/robert/.config/rsync/rsync-homedir-local.txt --exclude=node_modules --exclude=.yarn/unplugged /home/robert/ $BACKUP_DIR"
 
 if status is-login
   set -x (gnome-keyring-daemon | string split "=")

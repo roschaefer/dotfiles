@@ -10,7 +10,6 @@ vim.keymap.set('n', 'H', '<cmd>tabprevious<cr>')
 vim.keymap.set('n', 'L', '<cmd>tabnext<cr>')
 
 
-require 'plugins'
 vim.g.mapleader = " " -- make sure to set `mapleader` before lazy so your mappings are correct
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -24,15 +23,110 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
-require("lazy").setup('plugins', {})
+require("lazy").setup({
+  { 'neovim/nvim-lspconfig' },
+
+  { "ellisonleao/gruvbox.nvim" },
+
+  { 'nvim-lua/plenary.nvim' },
+  { 'nvim-telescope/telescope.nvim' },
+
+  { 'hrsh7th/cmp-nvim-lsp' },
+  { 'hrsh7th/cmp-buffer'},
+  { 'hrsh7th/cmp-path'},
+  { 'hrsh7th/cmp-cmdline'},
+  { 'hrsh7th/nvim-cmp' },
+  { 'L3MON4D3/LuaSnip' },
+  { 'saadparwaiz1/cmp_luasnip' },
+
+  { 'nvim-treesitter/nvim-treesitter' },
+
+  { 'ggandor/leap.nvim' },
+
+  { 'ntpeters/vim-better-whitespace' },
+
+  { 'mfussenegger/nvim-dap' },
+  { 'mxsdev/nvim-dap-vscode-js' },
+  { "rcarriga/nvim-dap-ui" },
+  { 'microsoft/vscode-js-debug' },
+  -- run = 'npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out'
+  {'simrat39/rust-tools.nvim'},
+
+  { 'folke/neodev.nvim' },
+
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    init = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 500
+    end,
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    }
+  },
+
+  { 'kdheepak/lazygit.nvim' },
+
+  { 'lewis6991/gitsigns.nvim' },
+
+  {'is0n/fm-nvim'},
+
+  { 'echasnovski/mini.nvim', version = false },
+
+  { 'sindrets/diffview.nvim' },
+
+  { 'windwp/nvim-ts-autotag' },
+  { 'nvim-lualine/lualine.nvim' },
+  { 'nvim-tree/nvim-web-devicons' },
+  { 'Bekaboo/dropbar.nvim' },
+})
 
 require'lspconfig'.html.setup{}
-require'lspconfig'.tsserver.setup {}
+require'lspconfig'.tsserver.setup{}
 require'lspconfig'.volar.setup{}
 require'lspconfig'.solargraph.setup{}
 require'lspconfig'.gopls.setup{}
+require('lualine').setup({
+  options = { theme = 'gruvbox' },
+})
+require'lspconfig'.rust_analyzer.setup{}
+
 
 require("luasnip.loaders.from_snipmate").load({ path = { "./snippets" } })
+
+local extension_path = vim.env.HOME .. '/.vscode-oss/extensions/vadimcn.vscode-lldb-1.10.0-universal/'
+local codelldb_path = extension_path .. 'adapter/codelldb'
+local liblldb_path = extension_path .. 'lldb/lib/liblldb'
+local this_os = vim.loop.os_uname().sysname;
+
+-- The path in windows is different
+if this_os:find "Windows" then
+  codelldb_path = extension_path .. "adapter\\codelldb.exe"
+  liblldb_path = extension_path .. "lldb\\bin\\liblldb.dll"
+else
+  -- The liblldb extension is .so for linux and .dylib for macOS
+  liblldb_path = liblldb_path .. (this_os == "Linux" and ".so" or ".dylib")
+end
+
+local rt = require("rust-tools")
+
+rt.setup({
+  server = {
+    on_attach = function(_, bufnr)
+      -- Hover actions
+      vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
+      -- Code action groups
+      vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
+    end,
+  },
+  dap = {
+    adapter = require('rust-tools.dap').get_codelldb_adapter(
+    codelldb_path, liblldb_path)
+  },
+})
 
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap=true, silent=true }
@@ -275,7 +369,6 @@ require("neodev").setup({
 -- vim.keymap.set('n', '<leader>vo', dapui.open)
 -- vim.keymap.set('n', '<leader>vc', dapui.close)
 -- vim.keymap.set('n', '<leader>vi', dapui.toggle)
-
 
 require('gitsigns').setup()
 require('mini.align').setup({})
