@@ -68,8 +68,6 @@ require("lazy").setup({
     }
   },
 
-  { 'kdheepak/lazygit.nvim' },
-
   { 'lewis6991/gitsigns.nvim' },
 
   {'is0n/fm-nvim'},
@@ -82,6 +80,10 @@ require("lazy").setup({
   { 'nvim-lualine/lualine.nvim' },
   { 'nvim-tree/nvim-web-devicons' },
   { 'Bekaboo/dropbar.nvim' },
+
+  { 'f-person/git-blame.nvim' },
+
+  { "nvim-neotest/nvim-nio" },
 })
 
 require'lspconfig'.html.setup{}
@@ -89,6 +91,7 @@ require'lspconfig'.tsserver.setup{}
 require'lspconfig'.volar.setup{}
 require'lspconfig'.solargraph.setup{}
 require'lspconfig'.gopls.setup{}
+require'lspconfig'.svelte.setup{}
 require('lualine').setup({
   options = { theme = 'gruvbox' },
 })
@@ -168,9 +171,7 @@ vim.keymap.set('n', '<leader>t', builtin.treesitter, {})
 vim.keymap.set('n', '<leader>T', builtin.builtin, {})
 
 --- 'is0n/fm-nvim'
-vim.keymap.set('n', '<leader>x', '<Cmd>Xplr %:p:h<cr>')
-vim.keymap.set('n', '<leader>X', '<Cmd>Xplr<cr>')
-vim.keymap.set('n', '<leader>l', '<Cmd>Lf %:p:h<cr>')
+vim.keymap.set('n', '<leader>l', '<Cmd>Lf "%:p:h"<cr>')
 vim.keymap.set('n', '<leader>L', '<Cmd>Lf<cr>')
 
 local has_words_before = function()

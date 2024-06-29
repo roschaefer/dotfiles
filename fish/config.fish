@@ -4,6 +4,7 @@ export OPENER=xdg-open
 export CHROME_EXECUTABLE=(which chromium)
 export BACKUP_DIR=/run/media/robert/external-drive/home/robert
 export GPG_TTY=$(tty)
+export MOZ_ENABLE_WAYLAND=1
 
 source /opt/asdf-vm/asdf.fish
 
@@ -49,3 +50,6 @@ if status is-interactive
   # direnv hook fish | source
   zoxide init fish | source
 end
+
+
+fish_add_path ~/.cargo/bin
