@@ -5,7 +5,7 @@ export CHROME_EXECUTABLE=(which chromium)
 export BACKUP_DIR=/run/media/robert/external-drive/home/robert
 export GPG_TTY=$(tty)
 export MOZ_ENABLE_WAYLAND=1
-
+export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/gcr/ssh
 function lfcd
     set tmp (mktemp)
     # `command` is needed in case `lfcd` is aliased to `lf`
@@ -22,7 +22,6 @@ function lfcd
 end
 
 if status is-login
-  set -x (gnome-keyring-daemon | string split "=")
   exec sway
 end
 
