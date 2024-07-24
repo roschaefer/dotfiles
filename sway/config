@@ -18,7 +18,7 @@ set $term foot
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu  j4-dmenu-desktop --dmenu='bemenu -i' | xargs swaymsg exec --
+set $menu  wldash
 
 ### Output configuration
 #
@@ -215,14 +215,7 @@ bindsym $mod+Shift+P exec grim -g "$(slurp; sleep 3)" - | satty --filename - --f
 # Status Bar:
 #
 # Read `man 5 sway-bar` for more information about this section.
-bar {
-    position bottom
-
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    mode invisible
-    status_command waybar
-}
+exec waybar
 
 include /etc/sway/config.d/*
 
