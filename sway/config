@@ -208,8 +208,8 @@ bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
 bindsym XF86MonBrightnessDown exec light -U 5
 bindsym XF86MonBrightnessUp exec light -A 5
-bindsym $mod+p exec grim -g "$(slurp)" - | swappy -f -
-bindsym $mod+Shift+P exec grim -g "$(slurp; sleep 3)" - | swappy -f -
+bindsym $mod+p exec grim -g "$(slurp)" - | satty --filename - --fullscreen --output-filename ~/Desktop/satty-$(date '+%Y%m%d-%H:%M:%S').png
+bindsym $mod+Shift+P exec grim -g "$(slurp; sleep 3)" - | satty --filename - --fullscreen --output-filename ~/Desktop/satty-$(date '+%Y%m%d-%H:%M:%S').png
 
 #
 # Status Bar:
