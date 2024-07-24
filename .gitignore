@@ -4,7 +4,7 @@
 
 !fish/config.fish
 !sway/config
-!waybar/*
+!yambar/*
 !nvim/init*
 !nvim/lua
 !nvim/lua/plugins.lua
