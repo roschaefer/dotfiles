@@ -1,0 +1,82 @@
+font_paths:
+  sans: /usr/share/fonts/gsfonts/NimbusSans-Regular.otf
+  monospace: /usr/share/fonts/gsfonts/NimbusMonoPS-Regular.otf
+widget: !vertical_layout
+- !horizontal_layout
+  - !margin
+    margins:
+    - 16
+    - 32
+    - 0
+    - 0
+    widget: !clock
+      font: null
+      font_size: 128.0
+  - !margin
+    margins:
+    - 16
+    - 64
+    - 0
+    - 0
+    widget: !date
+      font: null
+      font_size: 48.0
+  - !vertical_layout
+    - !margin
+      margins:
+      - 16
+      - 32
+      - 32
+      - 0
+      widget: !battery
+        font: null
+        font_size: 24.0
+    - !margin
+      margins:
+      - 16
+      - 8
+      - 32
+      - 0
+      widget: !backlight
+        device: null
+        font: null
+        font_size: 24.0
+    - !margin
+      margins:
+      - 16
+      - 8
+      - 32
+      - 0
+      widget: !pulse_audio
+        font: null
+        font_size: 24.0
+- !horizontal_line 1
+- !inverted_horizontal_layout
+  - !margin
+    margins:
+    - 16
+    - 16
+    - 32
+    - 0
+    widget: !calendar
+      font_primary: null
+      font_secondary: null
+      font_size: 24.0
+      sections_x: 1
+      sections_y: 3
+  - !vertical_line 1
+  - !margin
+    margins:
+    - 32
+    - 0
+    - 0
+    - 32
+    widget: !launcher
+      font: null
+      font_size: 32.0
+      launch_cmd: null
+mode: !layer_surface
+- 1024
+- 1
+background: 4210752250
+server: null
