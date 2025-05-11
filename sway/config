@@ -18,12 +18,12 @@ set $term foot
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu  wldash
+set $menu wldash
 
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+# output * bg ~/Desktop/wallpaper.png fill #FFFFFF
 #
 # Example configuration:
 #
@@ -198,14 +198,17 @@ mode "resize" {
     bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
-
+#
+# Utilities:
+#
+    # Special keys to adjust volume via PulseAudio
+    bindsym --locked XF86AudioMute exec pactl set-sink-mute \@DEFAULT_SINK@ toggle
+    bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume \@DEFAULT_SINK@ -5%
+    bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume \@DEFAULT_SINK@ +5%
+    bindsym --locked XF86AudioMicMute exec pactl set-source-mute \@DEFAULT_SOURCE@ toggle
 #
 # Custom keybindings
 #
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
 bindsym XF86MonBrightnessDown exec light -U 5
 bindsym XF86MonBrightnessUp exec light -A 5
 bindsym $mod+p exec grim -g "$(slurp)" - | satty --filename - --fullscreen --output-filename ~/Desktop/satty-$(date '+%Y%m%d-%H:%M:%S').png
@@ -221,13 +224,12 @@ exec waybar
 include /etc/sway/config.d/*
 
 
-bindgesture swipe:left workspace prev
-bindgesture swipe:right workspace next
-
-bindgesture pinch:inward+up move up
-bindgesture pinch:inward+down move down
-bindgesture pinch:inward+left move left
-bindgesture pinch:inward+right move right
+# bindgesture swipe:left workspace prev
+# bindgesture swipe:right workspace next
+# bindgesture pinch:inward+up move up
+# bindgesture pinch:inward+down move down
+# bindgesture pinch:inward+left move left
+# bindgesture pinch:inward+right move right
 
 default_border pixel 2
 default_floating_border pixel 2

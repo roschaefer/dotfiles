@@ -1,16 +1,3 @@
-vim.o.clipboard = 'unnamedplus'
-vim.wo.number = true
-vim.o.tabstop = 2
-vim.o.softtabstop = 2
-vim.o.shiftwidth = 2
-vim.o.expandtab = true
-
-vim.keymap.set('n', 'T', '<cmd>tabnew<cr>')
-vim.keymap.set('n', 'H', '<cmd>tabprevious<cr>')
-vim.keymap.set('n', 'L', '<cmd>tabnext<cr>')
-
-
-vim.g.mapleader = " " -- make sure to set `mapleader` before lazy so your mappings are correct
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -23,6 +10,7 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
+
 require("lazy").setup({
   { 'neovim/nvim-lspconfig' },
 
@@ -41,18 +29,17 @@ require("lazy").setup({
 
   { 'nvim-treesitter/nvim-treesitter' },
 
-  { 'ggandor/leap.nvim' },
-
   { 'ntpeters/vim-better-whitespace' },
 
   { 'mfussenegger/nvim-dap' },
   { 'mxsdev/nvim-dap-vscode-js' },
   { "rcarriga/nvim-dap-ui" },
   { 'microsoft/vscode-js-debug' },
-  -- run = 'npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out'
-  {'simrat39/rust-tools.nvim'},
 
-  { 'folke/neodev.nvim' },
+  {
+    "folke/lazydev.nvim",
+    ft = "lua", -- only load on lua files
+  },
 
   {
     "folke/which-key.nvim",
@@ -70,8 +57,6 @@ require("lazy").setup({
 
   { 'lewis6991/gitsigns.nvim' },
 
-  {'is0n/fm-nvim'},
-
   { 'echasnovski/mini.nvim', version = false },
 
   { 'sindrets/diffview.nvim' },
@@ -84,52 +69,140 @@ require("lazy").setup({
   { 'f-person/git-blame.nvim' },
 
   { "nvim-neotest/nvim-nio" },
+
+  { 'lucidph3nx/nvim-sops', event = { 'BufEnter' }},
+
+  { 'MagicDuck/grug-far.nvim' },
+
+  { "williamboman/mason.nvim" },
+  { "williamboman/mason-lspconfig.nvim" },
+
+  ---@type LazySpec
+  {
+    "mikavilpas/yazi.nvim",
+    event = "VeryLazy",
+    keys = {
+      -- 👇 in this section, choose your own keymappings!
+      {
+        "<leader>-",
+        "<cmd>Yazi<cr>",
+        desc = "Open yazi at the current file",
+      },
+      {
+        -- Open in the current working directory
+        "<leader>cw",
+        "<cmd>Yazi cwd<cr>",
+        desc = "Open the file manager in nvim's working directory" ,
+      },
+      {
+        -- NOTE: this requires a version of yazi that includes
+        -- https://github.com/sxyazi/yazi/pull/1305 from 2024-07-18
+        '<c-up>',
+        "<cmd>Yazi toggle<cr>",
+        desc = "Resume the last yazi session",
+      },
+    },
+    ---@type YaziConfig
+    opts = {
+      -- if you want to open yazi instead of netrw, see below for more info
+      open_for_directories = false,
+      use_ya_for_events_reading = true,
+      use_yazi_client_id_flag = true,
+
+
+      -- enable these if you are using the latest version of yazi
+      -- use_ya_for_events_reading = true,
+      -- use_yazi_client_id_flag = true,
+
+      keymaps = {
+        show_help = '<f1>',
+      },
+    },
+  }
 })
 
+vim.o.clipboard = 'unnamedplus'
+vim.wo.number = true
+vim.o.tabstop = 2
+vim.o.softtabstop = 2
+vim.o.shiftwidth = 2
+vim.o.expandtab = true
+
+vim.keymap.set('n', 'T', '<cmd>tabnew<cr>')
+vim.keymap.set('n', 'H', '<cmd>tabprevious<cr>')
+vim.keymap.set('n', 'L', '<cmd>tabnext<cr>')
+
+
+vim.g.mapleader = " " -- make sure to set `mapleader` before lazy so your mappings are correct
+vim.g.maplocalleader = ','
+vim.cmd('colorscheme gruvbox')
+
+
+require("mason").setup()
+require("mason-lspconfig").setup()
+
 require'lspconfig'.html.setup{}
-require'lspconfig'.tsserver.setup{}
 require'lspconfig'.volar.setup{}
+
+local mason_registry = require('mason-registry')
+local ts_plugin_path = mason_registry.get_package('vue-language-server'):get_install_path() .. '/node_modules/@vue/language-server/node_modules/@vue/typescript-plugin'
+require'lspconfig'.ts_ls.setup{
+  capabilities = capabilities,
+  init_options = {
+    plugins = {
+      {
+        name = "@vue/typescript-plugin",
+        location = ts_plugin_path,
+        languages = {"javascript", "typescript", "vue"},
+      },
+    },
+  },
+  filetypes = {
+    "javascript",
+    "typescript",
+    "vue",
+  },
+}
+
+require'lspconfig'.eslint.setup{}
 require'lspconfig'.solargraph.setup{}
+require'lspconfig'.rubocop.setup{}
 require'lspconfig'.gopls.setup{}
 require'lspconfig'.svelte.setup{}
+require'lspconfig'.tailwindcss.setup{}
+require'lspconfig'.helm_ls.setup{}
+-- require'lspconfig'.harper_ls.setup{}
+require'lspconfig'.jsonls.setup{}
+
 require('lualine').setup({
   options = { theme = 'gruvbox' },
 })
-require'lspconfig'.rust_analyzer.setup{}
-
-
+require('grug-far').setup({});
 require("luasnip.loaders.from_snipmate").load({ path = { "./snippets" } })
 
-local extension_path = vim.env.HOME .. '/.vscode-oss/extensions/vadimcn.vscode-lldb-1.10.0-universal/'
-local codelldb_path = extension_path .. 'adapter/codelldb'
-local liblldb_path = extension_path .. 'lldb/lib/liblldb'
-local this_os = vim.loop.os_uname().sysname;
-
--- The path in windows is different
-if this_os:find "Windows" then
-  codelldb_path = extension_path .. "adapter\\codelldb.exe"
-  liblldb_path = extension_path .. "lldb\\bin\\liblldb.dll"
-else
-  -- The liblldb extension is .so for linux and .dylib for macOS
-  liblldb_path = liblldb_path .. (this_os == "Linux" and ".so" or ".dylib")
-end
-
-local rt = require("rust-tools")
-
-rt.setup({
-  server = {
-    on_attach = function(_, bufnr)
-      -- Hover actions
-      vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
-      -- Code action groups
-      vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
-    end,
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
   },
-  dap = {
-    adapter = require('rust-tools.dap').get_codelldb_adapter(
-    codelldb_path, liblldb_path)
-  },
+}
+
+require('gitsigns').setup()
+require('mini.align').setup({})
+require('mini.ai').setup({})
+require('mini.move').setup({})
+require('mini.basics').setup({
+  mappings = {
+    windows = true,
+  }
 })
+require('mini.bracketed').setup({})
+require('nvim-ts-autotag').setup()
+
 
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap=true, silent=true }
@@ -156,11 +229,6 @@ vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
 vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
 vim.keymap.set('n', '<leader>fo', function() vim.lsp.buf.format { async = true } end, bufopts)
 
-require('lspconfig')['tsserver'].setup{
-  on_attach = on_attach,
-  flags = lsp_flags,
-}
-
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
@@ -168,11 +236,9 @@ vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fH', builtin.help_tags, {})
 vim.keymap.set('n', '<leader>fh', builtin.oldfiles, {})
 vim.keymap.set('n', '<leader>t', builtin.treesitter, {})
+vim.keymap.set('n', '<leader>gb', builtin.git_bcommits, {})
+vim.keymap.set('n', '<leader>gbr', builtin.git_bcommits_range, {})
 vim.keymap.set('n', '<leader>T', builtin.builtin, {})
-
---- 'is0n/fm-nvim'
-vim.keymap.set('n', '<leader>l', '<Cmd>Lf "%:p:h"<cr>')
-vim.keymap.set('n', '<leader>L', '<Cmd>Lf<cr>')
 
 local has_words_before = function()
   unpack = unpack or table.unpack
@@ -256,134 +322,3 @@ cmp.setup.cmdline(':', {
   })
 })
 
--- Set up lspconfig.
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
-require('lspconfig')['tsserver'].setup {
-  capabilities = capabilities
-}
-
-require'nvim-treesitter.configs'.setup {
-  highlight = {
-    enable = true,
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = false,
-  },
-}
-
-require('leap').add_default_mappings()
-
-require("dap-vscode-js").setup({
-  -- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
-  debugger_path = vim.fn.stdpath('data') .. "/lazy/vscode-js-debug",
-  -- debugger_cmd = { "extension" }, -- Command to use to launch the debug server. Takes precedence over `node_path` and `debugger_path`.
-  adapters = { 'chrome', 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost', 'node', 'chrome' }, -- which adapters to register in nvim-dap
-  -- log_file_path = "(stdpath cache)/dap_vscode_js.log" -- Path for file logging
-  -- log_file_level = false -- Logging level for output to file. Set to false to disable file logging.
-  -- log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
-})
-
-local js_based_languages = { "typescript", "javascript", "typescriptreact" }
-
-for _, language in ipairs(js_based_languages) do
-  require("dap").configurations[language] = {
-    {
-      type = "pwa-node",
-      request = "launch",
-      name = "Launch file",
-      program = "${file}",
-      cwd = "${workspaceFolder}",
-    },
-    {
-      type = "pwa-node",
-      request = "attach",
-      name = "Attach",
-      processId = require'dap.utils'.pick_process,
-      cwd = "${workspaceFolder}",
-    },
-    {
-      type = "pwa-node",
-      request = "launch",
-      name = "Debug Jest Tests",
-      -- trace = true, -- include debugger info
-      runtimeExecutable = "node",
-      runtimeArgs = {
-        "./node_modules/jest/bin/jest.js",
-        "--runInBand",
-      },
-      rootPath = "${workspaceFolder}",
-      cwd = "${workspaceFolder}",
-      console = "integratedTerminal",
-      internalConsoleOptions = "neverOpen",
-    },
-    {
-      type = "pwa-node",
-      request = "launch",
-      name = "Debug Yarn 3 Jest Tests",
-      runtimeExecutable = "yarn",
-      runtimeArgs = {
-        "run", "--inspect-brk", "jest"
-      },
-      rootPath = "${workspaceFolder}",
-      cwd = "${workspaceFolder}",
-      console = "integratedTerminal",
-      internalConsoleOptions = "neverOpen",
-    }
-  }
-end
-
-local dap = require("dap")
--- Set keymaps to control the debugger
-vim.keymap.set('n', '<F5>', require 'dap'.continue)
-vim.keymap.set('n', '<F10>', require 'dap'.step_over)
-vim.keymap.set('n', '<F11>', require 'dap'.step_into)
-vim.keymap.set('n', '<F12>', require 'dap'.step_out)
-vim.keymap.set('n', '<leader>b', require 'dap'.toggle_breakpoint)
-vim.keymap.set('n', '<leader>B', function()
-  require 'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))
-end)
-
-
-require("dapui").setup()
-
-local dap, dapui = require("dap"), require("dapui")
-
-dap.listeners.after.event_initialized["dapui_config"] = function()
-  dapui.open({})
-end
-dap.listeners.before.event_terminated["dapui_config"] = function()
-  dapui.close({})
-end
-dap.listeners.before.event_exited["dapui_config"] = function()
-  dapui.close({})
-end
-
-vim.keymap.set('n', '<leader>ui', require 'dapui'.toggle)
-
-require("neodev").setup({
-  library = { plugins = { "nvim-dap-ui" }, types = true },
-})
-
--- local dapui = require('dapui')
--- vim.keymap.set('n', '<leader>vo', dapui.open)
--- vim.keymap.set('n', '<leader>vc', dapui.close)
--- vim.keymap.set('n', '<leader>vi', dapui.toggle)
-
-require('gitsigns').setup()
-require('mini.align').setup({})
-require('mini.ai').setup({})
-require('mini.move').setup({})
-require('mini.basics').setup({
-  mappings = {
-    windows = true,
-  }
-})
-require('mini.bracketed').setup({})
-
--- require('diffview').setup({})
-
-require('nvim-ts-autotag').setup()
-
-vim.cmd('colorscheme gruvbox')
